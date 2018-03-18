@@ -1,0 +1,11 @@
+{
+    "subscriberExternalId": "1",
+    "description": "Sample Subscriber Registration",
+    "notificationFilter": {
+        "matchingFilter": [
+            "VNF_UPDATED",
+            "VNF_CREATED"
+        ]
+    },
+    "notificationUri": "http://sample.url.com/notification"
+}

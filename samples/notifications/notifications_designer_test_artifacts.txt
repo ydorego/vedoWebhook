@@ -1,0 +1,29 @@
+* --------------------------------------------------------------------------------
+* Convenience artifacts/operations to designer test the EscCoreApi notifications
+* --------------------------------------------------------------------------------
+
+To get a sample notification payload, perform a HTTP GET to the following URL:
+
+http://localhost:9595/escCore/notifications/sampleNotificationPayload
+
+
+To trigger a fake notification, perform a POST to the following URL:
+
+http://localhost:9595/escCore/notifications/publishNotification
+
+
+To get a sample SubscriberRegistrationRequest payload perform a HTTP GET t the following URL:
+
+http://localhost:9595/escCore/notifications/samplePayload
+
+
+How to test the notification processing?
+----------------------------------------
+
+Step #1: Register a couple of subscribers
+Step #2: Use the convenience API kickPublisher to create and push a notification using the local publisher
+Step #3: The user will observed that its subscribers should receive the notification based on
+         the matching rules specified in their notification filter.
+         
+         
+ 
