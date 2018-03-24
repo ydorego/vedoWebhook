@@ -1,6 +1,6 @@
 package com.vedoware.webhooks.core.services.actions;
 
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
 
 /**
  * 
@@ -14,6 +14,6 @@ public interface IAction {
 	String getVersion();
 	
 	
-	KeyValuePairs executeAction(KeyValuePairs input) throws EscCoreApiException;
+	KeyValuePairs executeAction(KeyValuePairs input) throws VedoHookApiException;
 	
 }

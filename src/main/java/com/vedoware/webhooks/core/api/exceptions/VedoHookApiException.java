@@ -1,30 +1,30 @@
 package com.vedoware.webhooks.core.api.exceptions;
 
 @SuppressWarnings("serial")
-public class EscCoreApiException extends Exception {
+public class VedoHookApiException extends Exception {
 
     private int statusCode;
 
-    public EscCoreApiException() {
+    public VedoHookApiException() {
         super();
         this.statusCode = -1;
     }
 
-    public EscCoreApiException(String message) {
+    public VedoHookApiException(String message) {
         super(message);
         this.statusCode = -1;
     }
 
-    public EscCoreApiException(String message, Throwable ex) {
+    public VedoHookApiException(String message, Throwable ex) {
         super(message, ex);
     }
 
-    public EscCoreApiException(int status, String message) {
+    public VedoHookApiException(int status, String message) {
         super(message);
         this.statusCode = status;
     }
 
-    public EscCoreApiException(int status, String message, Throwable ex) {
+    public VedoHookApiException(int status, String message, Throwable ex) {
         super(message, ex);
         this.statusCode = status;
     }

@@ -1,6 +1,6 @@
 package com.vedoware.webhooks.core.services.actions.impl;
 
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
 import com.vedoware.webhooks.core.services.actions.IAction;
 import com.vedoware.webhooks.core.services.actions.KeyValue;
 import com.vedoware.webhooks.core.services.actions.KeyValuePairs;
@@ -25,7 +25,7 @@ public class SendSMTPMessage implements IAction {
 	
 	
 	@Override
-	public KeyValuePairs executeAction(KeyValuePairs input) throws EscCoreApiException {
+	public KeyValuePairs executeAction(KeyValuePairs input) throws VedoHookApiException {
 		
 		KeyValuePairs keypairs = new KeyValuePairs();
 		

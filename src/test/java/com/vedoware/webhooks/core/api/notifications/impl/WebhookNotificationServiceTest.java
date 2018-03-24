@@ -1,4 +1,4 @@
-package com.cisco.esc.core.api.notifications.impl;
+package com.vedoware.webhooks.core.api.notifications.impl;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
 import com.vedoware.webhooks.core.api.exceptions.InvalidArgumentsException;
-import com.vedoware.webhooks.core.api.notifications.impl.CoreApiNotificationService;
+import com.vedoware.webhooks.core.api.notifications.impl.ApiNotificationService;
 import com.vedoware.webhooks.core.api.notifications.impl.NotificationProducer;
 import com.vedoware.webhooks.core.api.rest.exceptions.NotificationProblemDetailsException;
 import com.vedoware.webhooks.core.api.rest.notifications.INotificationProducer;
@@ -21,7 +21,7 @@ import com.vedoware.webhooks.core.api.rest.notifications.payloads.UnregisterSubs
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.UpdateSubscriberNotificationFilterRequest;
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.NotificationFilter.FILTER_ITEM;
 
-public class CoreApiNotificationServiceTest {
+public class WebhookNotificationServiceTest {
 
     @Before
     public void setUp() throws Exception {
@@ -36,19 +36,19 @@ public class CoreApiNotificationServiceTest {
     // -----------------------
 
     @Test(expected = InvalidArgumentsException.class)
-    public void testRegisterNotificationProducerNullArg() throws EscCoreApiException {
+    public void testRegisterNotificationProducerNullArg() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         INotificationProducer aNotificationProducer = null;
         notificationServiceUnderTest.registerNotificationProducer(aNotificationProducer);
 
     }
 
-    @Test(expected = EscCoreApiException.class)
-    public void testRegisterNotificationProducerAlreadyRegister() throws EscCoreApiException {
+    @Test(expected = VedoHookApiException.class)
+    public void testRegisterNotificationProducerAlreadyRegister() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         INotificationProducer aNotificationProducer = new NotificationProducer();
         notificationServiceUnderTest.registerNotificationProducer(aNotificationProducer);
@@ -56,10 +56,10 @@ public class CoreApiNotificationServiceTest {
 
     }
 
-    @Test(expected = EscCoreApiException.class)
-    public void testRegisterNotificationProducer() throws EscCoreApiException {
+    @Test(expected = VedoHookApiException.class)
+    public void testRegisterNotificationProducer() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         INotificationProducer aNotificationProducer = new NotificationProducer();
         notificationServiceUnderTest.registerNotificationProducer(aNotificationProducer);
@@ -80,9 +80,9 @@ public class CoreApiNotificationServiceTest {
     // ---------------------------
 
     @Test(expected = NotificationProblemDetailsException.class)
-    public void testSubscriberRegistrationNullArgs() throws EscCoreApiException {
+    public void testSubscriberRegistrationNullArgs() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = null;
         notificationServiceUnderTest.registerSubscriber(registration);
@@ -90,9 +90,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test(expected = NotificationProblemDetailsException.class)
-    public void testSubscriberRegistrationNullOrEmptyUriField() throws EscCoreApiException {
+    public void testSubscriberRegistrationNullOrEmptyUriField() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("");
@@ -101,9 +101,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test(expected = NotificationProblemDetailsException.class)
-    public void testSubscriberRegistrationNullOrEmptyFilterField() throws EscCoreApiException {
+    public void testSubscriberRegistrationNullOrEmptyFilterField() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("Fake URI");
@@ -114,9 +114,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test(expected = NotificationProblemDetailsException.class)
-    public void testSubscriberRegistrationNullOrEmptyExternalIdField() throws EscCoreApiException {
+    public void testSubscriberRegistrationNullOrEmptyExternalIdField() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("Fake URI");
@@ -128,9 +128,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test(expected = NotificationProblemDetailsException.class)
-    public void testSubscriberRegistrationInvalidNotificationFilter() throws EscCoreApiException {
+    public void testSubscriberRegistrationInvalidNotificationFilter() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("Fake URI");
@@ -141,9 +141,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test(expected = NotificationProblemDetailsException.class)
-    public void testSubscriberRegistrationInvalidNotificationNullFilter() throws EscCoreApiException {
+    public void testSubscriberRegistrationInvalidNotificationNullFilter() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("Fake URI");
@@ -155,9 +155,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test
-    public void testSubscriberRegistration() throws EscCoreApiException {
+    public void testSubscriberRegistration() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("Fake URI");
@@ -186,9 +186,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test
-    public void testSubscriberUnRegistration() throws EscCoreApiException {
+    public void testSubscriberUnRegistration() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("Fake URI");
@@ -222,9 +222,9 @@ public class CoreApiNotificationServiceTest {
     }
 
     @Test
-    public void testSubscriberUpdateFilterRegistration() throws EscCoreApiException {
+    public void testSubscriberUpdateFilterRegistration() throws VedoHookApiException {
 
-        CoreApiNotificationService notificationServiceUnderTest = new CoreApiNotificationService();
+        ApiNotificationService notificationServiceUnderTest = new ApiNotificationService();
 
         SubscriberRegistrationRequest registration = new SubscriberRegistrationRequest();
         registration.setNotificationUri("Fake URI");

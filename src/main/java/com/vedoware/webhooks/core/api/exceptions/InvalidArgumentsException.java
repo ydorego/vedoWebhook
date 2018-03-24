@@ -1,6 +1,6 @@
 package com.vedoware.webhooks.core.api.exceptions;
 
-public class InvalidArgumentsException extends EscCoreApiException {
+public class InvalidArgumentsException extends VedoHookApiException {
 
     private static final long serialVersionUID = -4964303636097953382L;
 

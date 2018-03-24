@@ -25,11 +25,11 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vedoware.webhooks.core.api.CoreApiOperationStatus;
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
 import com.vedoware.webhooks.core.api.exceptions.InvalidArgumentsException;
-import com.vedoware.webhooks.core.api.notifications.ICoreApiLocalNotificationProducer;
+import com.vedoware.webhooks.core.api.notifications.IApiLocalNotificationProducer;
 import com.vedoware.webhooks.core.api.rest.exceptions.NotificationProblemDetailsException;
-import com.vedoware.webhooks.core.api.rest.notifications.ICoreApiNotificationService;
+import com.vedoware.webhooks.core.api.rest.notifications.IApiNotificationService;
 import com.vedoware.webhooks.core.api.rest.notifications.INotification;
 import com.vedoware.webhooks.core.api.rest.notifications.INotificationProducer;
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.Notification;
@@ -46,19 +46,19 @@ import com.vedoware.webhooks.core.api.rest.notifications.payloads.UpdateSubscrib
 
 /**
  * NotificationService is responsible for publishing notification generated and
- * published by the EscCore.
+ * published by the Core.
  * 
  * In order to maintain clear separation between the core and that service, and
- * adaptation/mapping from EscCore Notification to EscCoreApi notification will
+ * adaptation/mapping from Core Notification to API notification will
  * always be done.
  * 
  * @author yvdorego
  *
  */
-@Service("CoreApiNotificationService")
-public class CoreApiNotificationService implements ICoreApiNotificationService, ICoreApiLocalNotificationProducer {
+@Service("ApiNotificationService")
+public class ApiNotificationService implements IApiNotificationService, IApiLocalNotificationProducer {
 
-    static Logger log = LoggerFactory.getLogger(CoreApiNotificationService.class);
+    static Logger log = LoggerFactory.getLogger(ApiNotificationService.class);
 
     private Map<String, SubscriberInfo> subscribers;
 
@@ -70,7 +70,7 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
 
     private NotificationPublisher notificationPublisher;
 
-    public CoreApiNotificationService() {
+    public ApiNotificationService() {
 
         notificationProducers = new HashMap<String, INotificationProducer>();
         notificationQueue = new SynchronousQueue<>();
@@ -86,7 +86,7 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
     }
 
     @Override
-    public SubscriberInfo getSubscriberInfo(String subscriberId) throws EscCoreApiException {
+    public SubscriberInfo getSubscriberInfo(String subscriberId) throws VedoHookApiException {
 
         if (subscriberId == null || subscriberId.isEmpty()) {
 
@@ -109,7 +109,7 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
 
     @Override
     public SubscriberRegistrationResponse registerSubscriber(SubscriberRegistrationRequest registration)
-            throws EscCoreApiException {
+            throws VedoHookApiException {
 
         if (registration == null || registration.getNotificationUri() == null
                 || registration.getNotificationUri().isEmpty()) {
@@ -164,7 +164,7 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
     @Override
     public UpdateSubscriberNotificationFilterResponse updateSubscriberNotificationFilter(
             UpdateSubscriberNotificationFilterRequest updateFilter)
-            throws EscCoreApiException {
+            throws VedoHookApiException {
 
         if (updateFilter == null || updateFilter.getSubscriberId() == null
                 || updateFilter.getSubscriberId().isEmpty()) {
@@ -217,7 +217,7 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
 
     @Override
     public UnregisterSubscriberResponse unregisterSubscriber(UnregisterSubscriberRequest registration)
-            throws EscCoreApiException {
+            throws VedoHookApiException {
 
         if (registration == null || registration.getSubscriberId() == null
                 || registration.getSubscriberId().isEmpty()) {
@@ -256,17 +256,10 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
     }
 
     @Override
-    public void publish(INotification aNotification) throws EscCoreApiException {
+    public void publish(INotification aNotification) throws VedoHookApiException {
 
         for (SubscriberInfo curSubscriber : subscribers.values()) {
 
-            // Addition of filtering based on the notification filter
-            //
-            
-            // Calling mapper from ESC Notification Type to EscCoreApi
-            // Notification
-            // Filter Item
-            //
 
             // TODO: Do it properly...
             //
@@ -291,7 +284,7 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
      * notification producers.
      */
     @Override
-    public INotificationProducer createNotificationProducer() throws EscCoreApiException {
+    public INotificationProducer createNotificationProducer() throws VedoHookApiException {
 
         // Create a new notification producer
         //
@@ -301,14 +294,14 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
 
 
     @Override
-    public void registerNotificationProducer(INotificationProducer aNotificationProducer) throws EscCoreApiException {
+    public void registerNotificationProducer(INotificationProducer aNotificationProducer) throws VedoHookApiException {
 
         if (aNotificationProducer == null) {
             throw new InvalidArgumentsException("Notification producer can not be null");
         }
 
         if (notificationProducers.containsKey(aNotificationProducer.getUniqueIdentifier())) {
-            throw new EscCoreApiException("Notification producer is already registered");
+            throw new VedoHookApiException("Notification producer is already registered");
         }
 
         notificationProducers.put(aNotificationProducer.getUniqueIdentifier(), aNotificationProducer);
@@ -321,14 +314,14 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
     }
 
     @Override
-    public void unRegisterNotificationProducer(INotificationProducer aNotificationProducer) throws EscCoreApiException {
+    public void unRegisterNotificationProducer(INotificationProducer aNotificationProducer) throws VedoHookApiException {
 
         if (aNotificationProducer == null) {
             throw new InvalidArgumentsException("Notification producer can not be null");
         }
 
         if (!notificationProducers.containsKey(aNotificationProducer.getUniqueIdentifier())) {
-            throw new EscCoreApiException("Notification producer is not registered");
+            throw new VedoHookApiException("Notification producer is not registered");
         }
 
         notificationProducers.remove(aNotificationProducer.getUniqueIdentifier());
@@ -339,14 +332,14 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
      * Method to be used by the notification producers
      */
     @Override
-    public void publish(INotificationProducer producerHandle, INotification aNotification) throws EscCoreApiException {
+    public void publish(INotificationProducer producerHandle, INotification aNotification) throws VedoHookApiException {
 
         if (producerHandle == null || aNotification == null) {
             throw new InvalidArgumentsException("Invalid arguments");
         }
 
         if (!notificationProducers.containsKey(producerHandle.getUniqueIdentifier())) {
-            throw new EscCoreApiException("Unknown notification producer");
+            throw new VedoHookApiException("Unknown notification producer");
         }
 
         // All good, we are now ready to add the notification within the queue
@@ -363,14 +356,14 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
             // notificationQueue.put(stopPublisher);
 
         } catch (InterruptedException e) {
-            throw new EscCoreApiException("Publishing Thread exception issue");
+            throw new VedoHookApiException("Publishing Thread exception issue");
         }
 
     }
 
     private void sendNotification(final INotification notification) {
 
-        final String endpointUrl = "http://localhost:9595/escCore/notifications/receiver"; // notification.getEscNotification().getDestination().getEndpoint();
+        final String endpointUrl = "http://localhost:9595/core/notifications/receiver";
 
         try {
             publisherService.execute(new Runnable() {
@@ -433,16 +426,6 @@ public class CoreApiNotificationService implements ICoreApiNotificationService, 
                     }
 
                     for (SubscriberInfo curSubscriber : subscribers.values()) {
-
-                        // Addition of filtering based on the notification
-                        // filter
-                        //
-
-                        // Calling mapper from ESC Notification Type to
-                        // EscCoreApi
-                        // Notification
-                        // Filter Item
-                        //
 
                         // TODO: Look into proper infrastructure around
                         // filtering of notification

@@ -2,30 +2,28 @@ package com.vedoware.webhooks.core.api.notifications;
 
 import java.util.List;
 
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
 import com.vedoware.webhooks.core.api.rest.notifications.INotification;
 import com.vedoware.webhooks.core.api.rest.notifications.INotificationProducer;
 
 /**
- * Interface to be used by the ESC Core to publish notifications through the ESC
- * Core API Layer. In this initial implementation, the notification will be
- * ultimately received by the ESC ETSI Service.
+ * Interface to be used by the Core to publish notifications through the Core API Layer. 
  * 
  * @author yvdorego
  *
  */
-public interface ICoreApiLocalNotificationProducer {
+public interface IApiLocalNotificationProducer {
 
     /**
-     * Returns an object to be used by the EscCoreApi to publish notifications.
+     * Returns an object to be used to publish notifications.
      * In this first release it is mainly a wrapper class providing mainly name
      * qualification. The intent is to have a placeholder where we could
      * eventually implements more complex dispatching.
      * 
      * @return
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
-    INotificationProducer createNotificationProducer() throws EscCoreApiException;
+    INotificationProducer createNotificationProducer() throws VedoHookApiException;
 
     /**
      * Returns the list of registered notifications subscribers.
@@ -38,26 +36,26 @@ public interface ICoreApiLocalNotificationProducer {
      * Register a local notification producer with the notification service.
      * 
      * @param aNotificationProducer
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
-    void registerNotificationProducer(INotificationProducer aNotificationProducer) throws EscCoreApiException;
+    void registerNotificationProducer(INotificationProducer aNotificationProducer) throws VedoHookApiException;
 
     /**
      * Unregister a previously notification producer from the notification
      * service.
      * 
      * @param aNotificationProducer
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
-    void unRegisterNotificationProducer(INotificationProducer aNotificationProducer) throws EscCoreApiException;
+    void unRegisterNotificationProducer(INotificationProducer aNotificationProducer) throws VedoHookApiException;
 
     /**
      * Publish a notification through the notification service.
      * 
      * @param producerHandle
      * @param aNotification
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
-    void publish(INotificationProducer producerHandle, INotification aNotification) throws EscCoreApiException;
+    void publish(INotificationProducer producerHandle, INotification aNotification) throws VedoHookApiException;
 
 }

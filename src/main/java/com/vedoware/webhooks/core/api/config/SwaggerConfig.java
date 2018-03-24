@@ -26,8 +26,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo metaData() {
-        ApiInfo apiInfo = new ApiInfo("ESC Core REST API", "ESC Core REST API for internal services", "1.0",
-                "Terms of service", new Contact("ESC Team", "https://cisco.com", "esc-support@cisco.com"),
+        ApiInfo apiInfo = new ApiInfo("Vedo Webhook REST API", "Vedo Webhook REST API for internal services", "1.0",
+                "Terms of service", new Contact("Vedoware Team", "https://vedoware.com", "support@vedoware.com"),
                 "Apache License Version 2.0", "https://www.apache.org/licenses/LICENSE-2.0",
                 new ArrayList<VendorExtension>());
         return apiInfo;

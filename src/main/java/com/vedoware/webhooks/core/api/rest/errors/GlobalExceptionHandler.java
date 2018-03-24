@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
 import com.vedoware.webhooks.core.api.rest.exceptions.NotificationProblemDetailsException;
 import com.vedoware.webhooks.core.api.rest.operations.ProblemDetails;
 
@@ -19,8 +19,8 @@ import com.vedoware.webhooks.core.api.rest.operations.ProblemDetails;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = EscCoreApiException.class)
-    public ResponseEntity<Object> handleBaseException(EscCoreApiException e, WebRequest request) {
+    @ExceptionHandler(value = VedoHookApiException.class)
+    public ResponseEntity<Object> handleBaseException(VedoHookApiException e, WebRequest request) {
         ProblemDetails problemDetails = new ProblemDetails();
         problemDetails.setDetails(e.getMessage());
         return handleExceptionInternal(e, problemDetails, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
-import com.vedoware.webhooks.core.api.notifications.ICoreApiLocalNotificationProducer;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
+import com.vedoware.webhooks.core.api.notifications.IApiLocalNotificationProducer;
 import com.vedoware.webhooks.core.api.rest.exceptions.NotificationProblemDetailsException;
-import com.vedoware.webhooks.core.api.rest.notifications.ICoreApiNotificationService;
+import com.vedoware.webhooks.core.api.rest.notifications.IApiNotificationService;
 import com.vedoware.webhooks.core.api.rest.notifications.INotificationProducer;
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.Notification;
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.NotificationFilter;
@@ -35,16 +35,16 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/escCore/notifications")
+@RequestMapping("/core/notifications")
 public class NotificationResource {
 
     static Logger log = LoggerFactory.getLogger(NotificationResource.class);
 
     @Autowired
-    ICoreApiNotificationService coreApiNotificationServiceRef;
+    IApiNotificationService coreApiNotificationServiceRef;
 
     @Autowired
-    ICoreApiLocalNotificationProducer coreApiNotificationProducerRef;
+    IApiLocalNotificationProducer coreApiNotificationProducerRef;
 
 
     @RequestMapping(value = "/subscribers", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -53,7 +53,7 @@ public class NotificationResource {
             @ApiResponse(code = 400, message = "Bad Request", response = NotificationProblemDetails.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = NotificationProblemDetails.class),
             @ApiResponse(code = 503, message = "Service Unavailable", response = NotificationProblemDetails.class) })
-    public ResponseEntity<SubscriberInfoList> getSubscribers() throws EscCoreApiException {
+    public ResponseEntity<SubscriberInfoList> getSubscribers() throws VedoHookApiException {
 
         SubscriberInfoList notificationSubscribers = coreApiNotificationServiceRef.getSubscribersInfo();
 
@@ -69,7 +69,7 @@ public class NotificationResource {
             @ApiResponse(code = 500, message = "Internal Server Error", response = NotificationProblemDetails.class),
             @ApiResponse(code = 503, message = "Service Unavailable", response = NotificationProblemDetails.class) })
     public ResponseEntity<SubscriberRegistrationResponse> registerSubscriber(
-            @RequestBody SubscriberRegistrationRequest subscriberRegistration) throws EscCoreApiException {
+            @RequestBody SubscriberRegistrationRequest subscriberRegistration) throws VedoHookApiException {
 
         SubscriberRegistrationResponse registrationResponse = coreApiNotificationServiceRef
                 .registerSubscriber(subscriberRegistration);
@@ -86,7 +86,7 @@ public class NotificationResource {
             @ApiResponse(code = 500, message = "Internal Server Error", response = NotificationProblemDetails.class),
             @ApiResponse(code = 503, message = "Service Unavailable", response = NotificationProblemDetails.class) })
     public ResponseEntity<UnregisterSubscriberResponse> unregisterSubscriber(
-            @PathVariable(value = "subscriberId") String subscriberId) throws EscCoreApiException {
+            @PathVariable(value = "subscriberId") String subscriberId) throws VedoHookApiException {
 
         if (subscriberId == null || subscriberId.isEmpty()) {
 
@@ -116,7 +116,7 @@ public class NotificationResource {
     public ResponseEntity<UpdateSubscriberNotificationFilterResponse> updateSubscriberNotificationFilter(
             @PathVariable(value = "subscriberId") String subscriberId,
             @RequestBody UpdateSubscriberNotificationFilterRequest updateNotificationFilter)
-            throws EscCoreApiException {
+            throws VedoHookApiException {
 
         if (subscriberId == null || subscriberId.isEmpty()) {
 
@@ -139,7 +139,7 @@ public class NotificationResource {
 
     @RequestMapping(value = "/samplePayload", method = RequestMethod.GET, produces = {
             MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<SubscriberRegistrationRequest> getSamplePayload() throws EscCoreApiException {
+    public ResponseEntity<SubscriberRegistrationRequest> getSamplePayload() throws VedoHookApiException {
 
         SubscriberRegistrationRequest operationResponse = new SubscriberRegistrationRequest();
 
@@ -154,7 +154,7 @@ public class NotificationResource {
 
         operationResponse.setNotificationFilter(notificationFilter);
 
-        operationResponse.setNotificationUri("http://localhost:9595/escCore/notifications/receiver");
+        operationResponse.setNotificationUri("http://localhost:9595/core/notifications/receiver");
         operationResponse.setSubscriberExternalId("123-456-789");
 
         HttpStatus status = HttpStatus.OK;
@@ -165,7 +165,7 @@ public class NotificationResource {
 
     @RequestMapping(value = "/sampleNotificationPayload", method = RequestMethod.GET, produces = {
             MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<Notification> getSampleNotificationPayload() throws EscCoreApiException {
+    public ResponseEntity<Notification> getSampleNotificationPayload() throws VedoHookApiException {
 
         Notification notificationPayloadResponse = new Notification();
 
@@ -194,12 +194,12 @@ public class NotificationResource {
      * 
      * @param subscriberRegistration
      * @return
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
     @RequestMapping(value = "/publishNotification", method = RequestMethod.POST, consumes = {
             MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<String> kickPublisher(@RequestBody Notification aNotification)
-            throws EscCoreApiException {
+            throws VedoHookApiException {
 
 
         // --------------------------------------------------------------------------------------
@@ -222,12 +222,12 @@ public class NotificationResource {
      * 
      * @param subscriberRegistration
      * @return
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
     @RequestMapping(value = "/receiver", method = RequestMethod.POST, consumes = {
             MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<String> notificationReceiver(@RequestBody Notification aNotification)
-            throws EscCoreApiException {
+            throws VedoHookApiException {
 
         log.info("*****************************************************************************");
         log.info(aNotification.toString());

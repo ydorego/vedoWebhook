@@ -4,7 +4,7 @@ import java.util.Date;
 
 
 /**
- * Notification fields mainly coming from some of the existing ESC Core
+ * Notification fields mainly coming from some of the existing Core
  * modifications.
  * 
  * @author yvdorego

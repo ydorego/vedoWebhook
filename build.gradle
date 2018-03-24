@@ -1,6 +1,6 @@
 
 plugins {
-  id "org.springframework.boot" version "1.5.8.RELEASE"
+  id "org.springframework.boot" version "2.0.0.RELEASE"
 }
 
 
@@ -47,7 +47,7 @@ dependencies {
         'junit:junit:4.12'
 
    task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '4.0'
 }
 
 }

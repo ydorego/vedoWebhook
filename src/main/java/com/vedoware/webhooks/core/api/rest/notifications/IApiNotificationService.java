@@ -1,6 +1,6 @@
 package com.vedoware.webhooks.core.api.rest.notifications;
 
-import com.vedoware.webhooks.core.api.exceptions.EscCoreApiException;
+import com.vedoware.webhooks.core.api.exceptions.VedoHookApiException;
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.SubscriberInfo;
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.SubscriberInfoList;
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.SubscriberRegistrationRequest;
@@ -11,12 +11,12 @@ import com.vedoware.webhooks.core.api.rest.notifications.payloads.UpdateSubscrib
 import com.vedoware.webhooks.core.api.rest.notifications.payloads.UpdateSubscriberNotificationFilterResponse;
 
 /**
- * EscCoreApi Notification service
+ * Api Notification service
  * 
  * @author yvdorego
  *
  */
-public interface ICoreApiNotificationService {
+public interface IApiNotificationService {
 
     /**
      * Returns the list of subscriber.
@@ -30,59 +30,47 @@ public interface ICoreApiNotificationService {
      * 
      * @param subscriberId
      * @return
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
-    SubscriberInfo getSubscriberInfo(String subscriberId) throws EscCoreApiException;
+    SubscriberInfo getSubscriberInfo(String subscriberId) throws VedoHookApiException;
 
     /**
      * Register a subscriber.
      * 
      * @param registration
      * @return
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
     SubscriberRegistrationResponse registerSubscriber(SubscriberRegistrationRequest registration)
-            throws EscCoreApiException;
+            throws VedoHookApiException;
 
     /**
      * Update the notification filter.
      * 
      * @param updateFilter
      * @return
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
     UpdateSubscriberNotificationFilterResponse updateSubscriberNotificationFilter(
-            UpdateSubscriberNotificationFilterRequest updateFilter) throws EscCoreApiException;
+            UpdateSubscriberNotificationFilterRequest updateFilter) throws VedoHookApiException;
 
     /**
      * Unregister a subscriber.
      * 
      * @param registration
      * @return
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
     UnregisterSubscriberResponse unregisterSubscriber(UnregisterSubscriberRequest registration)
-            throws EscCoreApiException;
+            throws VedoHookApiException;
 
     /**
      * Publish a notification to all subscribers registered with a filter
      * matching the notification type.
      * 
      * @param aNotification
-     * @throws EscCoreApiException
+     * @throws VedoHookApiException
      */
-    void publish(INotification aNotification) throws EscCoreApiException;
-
-    // INotificationProducer getNotificationProducer() throws
-    // EscCoreApiException;
-
-    // void registerNotificationProducer(INotificationProducer
-    // aNotificationProducer) throws EscCoreApiException;
-
-    // void unRegisterNotificationProducer(INotificationProducer
-    // aNotificationProducer) throws EscCoreApiException;
-
-    // void publish(INotificationProducer producerHandle, INotification
-    // aNotification) throws EscCoreApiException;
+    void publish(INotification aNotification) throws VedoHookApiException;
 
 }
