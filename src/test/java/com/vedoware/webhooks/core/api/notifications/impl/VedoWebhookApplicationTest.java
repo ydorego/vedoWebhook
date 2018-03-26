@@ -29,8 +29,7 @@ public class VedoWebhookApplicationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
-	
+		
 	@Before
 	public void setUp() throws Exception {
 	}
